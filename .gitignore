@@ -1,0 +1,112 @@
+# ==========================================
+# ReadBloom Monorepo - Root .gitignore
+# Covers Admin, Teacher, Student & Supabase
+# ==========================================
+
+# --- Operating System Files ---
+.DS_Store
+.apple_desktop
+.apple_double
+.LSOverride
+Icon?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDE & Editor Files ---
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+*.atom/
+*.build/
+*.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# --- Antigravity / AI Agent temporary dirs ---
+.agents/
+.codex/
+
+# --- Environment & Sensitive Credentials ---
+.env
+.env*
+!.env.example
+secrets.json
+*.pem
+
+# --- Node / JavaScript / Web ---
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+dist-ssr/
+**/dist-ssr/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.vercel
+*.tsbuildinfo
+
+# --- Flutter & Dart (admin, student, teacher) ---
+.dart_tool/
+**/.dart_tool/
+.flutter-plugins
+**/.flutter-plugins
+.flutter-plugins-dependencies
+**/.flutter-plugins-dependencies
+.pub-cache/
+**/.pub-cache/
+.pub/
+**/.pub/
+build/
+**/build/
+coverage/
+**/coverage/
+**/doc/api/
+app.*.symbols
+app.*.map.json
+.web_assets/
+
+# --- Android Artifacts & Keystores ---
+**/android/.gradle/
+**/android/captures/
+**/android/gradleBuild/
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/key.properties
+**/android/local.properties
+**/android/*.keystore
+**/android/*.jks
+**/android/app/google-services.json
+*.apk
+*.aab
+*.jks
+*.jks.b64
+rclone_ci.conf.b64
+
+# --- iOS Artifacts & CocoaPods ---
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Pods/
+**/ios/.bundle/
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GoogleService-Info.plist
+
+# --- Large Archive & Backup Directories ---
+zip/
+**/zip/
+*.zip
+*.tar.gz
+*.rar
+
+# --- Supabase & Database Temp ---
+.temp/
+**/.temp/

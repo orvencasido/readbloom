@@ -1,0 +1,215 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../providers/admin_provider.dart';
+import '../../../widgets/app_dialogs.dart';
+// import '../../../widgets/forgot_password_dialog.dart';
+import '../../../widgets/loading_dialog.dart';
+
+class LoginMobileBody extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
+  const LoginMobileBody({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.white,
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Logo Image
+                Image.asset(
+                  'lib/assets/logo-icon.png',
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 24),
+
+                // Welcome Header
+                Text(
+                  'WELCOME ADMIN!',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.outfit(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'WHERE WORDS BLOOM, MINDS GROW',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.outfit(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black54,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 36),
+
+                // Email field
+                _buildFieldLabel('EMAIL'),
+                const SizedBox(height: 6),
+                _buildTextField(
+                  controller: emailController,
+                  hintText: 'Enter your email',
+                  icon: Icons.email_outlined,
+                ),
+                const SizedBox(height: 20),
+
+                // Password field
+                _buildFieldLabel('PASSWORD'),
+                const SizedBox(height: 6),
+                _buildTextField(
+                  controller: passwordController,
+                  hintText: 'Enter your password',
+                  icon: Icons.lock_outline,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 36),
+
+                // Log In Button (Yellow 3D Capsule)
+                InkWell(
+                  onTap: () async {
+                    final result = await runWithLoadingDialog(
+                      context,
+                      () => context.read<AdminProvider>().login(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                      ),
+                      message: 'Signing in...',
+                    );
+                    if (result.success || !context.mounted) return;
+                    showAppMessageDialog(
+                      context,
+                      title: 'Cannot login',
+                      message:
+                          result.message ??
+                          'Credentials not found or incorrect.',
+                      isDanger: true,
+                    );
+                  },
+                  child: Container(
+                    width: 180,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7DD68),
+                      borderRadius: BorderRadius.circular(26),
+                      border: Border.all(color: Colors.black, width: 2.5),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFFC3AC46),
+                          blurRadius: 0,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'LOG IN',
+                      style: GoogleFonts.outfit(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                // const SizedBox(height: 16),
+                // TextButton(
+                //   onPressed: () => showForgotPasswordDialog(
+                //     context,
+                //     onSubmit: (email) => context
+                //         .read<AdminProvider>()
+                //         .sendPasswordResetEmail(email),
+                //   ),
+                //   child: Text(
+                //     'Forgot password?',
+                //     style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFieldLabel(String label) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12.0),
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            fontWeight: FontWeight.w900,
+            color: Colors.black,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscureText = false,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      style: GoogleFonts.outfit(
+        fontSize: 14,
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(icon, color: Colors.black38, size: 20),
+        hintText: hintText,
+        hintStyle: GoogleFonts.outfit(
+          fontSize: 14,
+          color: Colors.black38,
+          fontWeight: FontWeight.w500,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(24),
+          borderSide: const BorderSide(color: Colors.black26, width: 1.5),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(24),
+          borderSide: const BorderSide(color: Colors.black26, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(24),
+          borderSide: const BorderSide(color: Colors.black, width: 2.0),
+        ),
+      ),
+    );
+  }
+}
